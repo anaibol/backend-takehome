@@ -23,7 +23,7 @@ Moreover since most users are abroad, they might have different timezones which 
 
 In this test you will be asked to implement a solution for the second type of notification: namely those that are scheduled.
 
-Your task will be to implemented a very simple REST API with a unique endpoint that listens on `127.0.0.1:3001`.
+Your task will be to implement a very simple REST API with a unique endpoint that listens on `127.0.0.1:3001`.
 
 This endpoint should be `POST /user` (body described below).
 
