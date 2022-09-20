@@ -39,8 +39,7 @@ For each request received on this endpoint, the API should send a couple of requ
 Suppose you receive a request `R` at time `T` on the `POST /user` endpoint. Here is the list of _notifications_ that should be triggered:
 
 - One scheduled at `T + 2 min`
-- Two scheduled on the same Day than `Day(T)`, sent each at random times picked between 7 and 9PM in the user's `timeZone` (those are skipped if this timeframe is already past).
-- Two at Day `Day(T) + 1`, sent each at random times picked between 8AM and 12PM.
+- One scheduled on the same Day than `Day(T)`, sent each at random times picked between 7 and 9PM in the user's `timeZone` (skipped if this timeframe is already past).
 
 You don't have to check if timeZone is valid as we only send valid ones.
 
