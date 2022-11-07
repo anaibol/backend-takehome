@@ -7,14 +7,21 @@ services:
       dockerfile: ./app/Dockerfile
     network_mode: host
 
+  redis:
+    image: "redis:alpine"
+    command: redis-server
+    network_mode: host
+
   scheduler:
     build:
       context: ./takeoff
       dockerfile: ./scheduler/Dockerfile
     network_mode: host
 
+
   script:
     build:
       context: ./takeoff
       dockerfile: ./script/Dockerfile
     network_mode: host
+

@@ -33,8 +33,7 @@ const instance: AxiosInstance = axios.create({
   headers: { "content-type": "application/json" },
 });
 
-
-const queue = new Bull('users', 'redis://default:redispw@localhost:55000');
+const queue = new Bull('users', 'redis://default:redispw@localhost:6379');
 
 queue.process('users', function (job) {
   console.log('Processing job', job.data);
