@@ -7,6 +7,12 @@ services:
       dockerfile: ./app/Dockerfile
     network_mode: host
 
+  scheduler:
+    build:
+      context: ./takeoff
+      dockerfile: ./scheduler/Dockerfile
+    network_mode: host
+
   script:
     build:
       context: ./takeoff
