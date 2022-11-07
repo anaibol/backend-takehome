@@ -1,7 +1,11 @@
 import fastify from 'fastify';
 import { User, UserTaskData } from '../../share';
 import Bull from 'bull';
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
+
+export class UsersJobData extends UserTaskData {
+  createdOn!: Date;
+}
 
 const getRandomDate = (start: Date, end: Date): Date => {
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
@@ -35,8 +39,10 @@ const instance: AxiosInstance = axios.create({
 
 const queue = new Bull('users', 'redis://default:redispw@localhost:6379');
 
-queue.process('users', function (job) {
-  console.log('Processing job', job.data);
+queue.process('users', function (job: Bull.Job<UsersJobData>): Promise<void> | Promise<AxiosResponse<UserTaskData>> {
+  console.log('Processing job', job.data, job.data.createdOn);
+
+  if (isDatePassed(new Date(job.data.scheduledDate))) return Promise.resolve()
 
   return instance.post<UserTaskData>('/', job.data)
 });
@@ -50,9 +56,14 @@ queue.on('error', (error) => {
 })
 
 const createJob = (data: UserTaskData, options: Bull.JobOptions): Promise<Bull.Job<User>> => {
-  console.log((new Date()).toISOString(), 'Creating job', data);
+  const jobData = {
+    ...data,
+    createdOn: changeTimeZone(new Date(), data.timeZone),
+  }
 
-  return queue.add('users', data, {
+  console.log((new Date()).toISOString(), 'Creating job', jobData);
+
+  return queue.add('users', jobData, {
     priority: 0,
     attempts: 5,
     backoff: {
