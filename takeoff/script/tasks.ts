@@ -21,12 +21,9 @@ function sleep(ms: number): Promise<void> {
 
 (async (): Promise<void> => {
   const users: User[] = [];
-  // const nbOfCalls: number = Math.floor(
-  //   Math.random() * (MAX_NUMBER_OF_CALL - MIN_NUMBER_OF_CALL) + MIN_NUMBER_OF_CALL
-  // );
-
-
-  const nbOfCalls: number = 1
+  const nbOfCalls: number = Math.floor(
+    Math.random() * (MAX_NUMBER_OF_CALL - MIN_NUMBER_OF_CALL) + MIN_NUMBER_OF_CALL
+  );
 
   for (let i = 0; i <= nbOfCalls; ++i) {
     users.push({
